@@ -1,4 +1,5 @@
 import os
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 import requests
 from dotenv import load_dotenv
@@ -21,6 +22,15 @@ app = FastAPI(
         "name": "MIT License",
         "url": "https://opensource.org/licenses/MIT"
     }
+)
+
+# Habilitar CORS para permitir solicitudes desde el frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080"],  # origen permitido (frontend)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/api/map/posts/", summary="Obtener posts aprobados", description="Devuelve todos los posts aprobados desde post-service.")
